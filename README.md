@@ -38,9 +38,9 @@ terminal at the bottom. After a few seconds it prints three addresses.
 **Step 5.** Copy those three addresses into the table below. You will paste them repeatedly. (There is a button that says *EDIT* at the top of this page, click it to edit this markdown file.)
 
 ```
-Pool manager     0x ______________________________________
-Liquidity router 0x ______________________________________
-Swap router      0x ______________________________________
+  Pool manager     0xd9145CCE52D386f254917e481eB44e9943F39138
+  Liquidity router 0xd8b934580fcE35a11B58C6D73aDeE468a2833fa8
+  Swap router      0xf8e81D47203A594245E36C48e151709F0C19fBe8
 ```
 
 > **If you reload the page or change the Environment, everything you deployed is wiped.** You would
@@ -84,8 +84,8 @@ Deployment two, your token B: same again, with token B's name and symbol and ini
 recover if you lose them. (Replace the underscores in the table below with your addresses, the 0x is just a hint at what the address should look like, so remove it too before you paste.)
 
 ```
-Token A address 0x ______________________________________
-Token B address 0x ______________________________________
+Token A address 0xD7ACd2a9FD159E69Bb102A1ca21C9a3e3A5F771B (KARO)
+Token B address 0x7EF2e0048f5bAeDe046f6BF797943daF4ED8CB47 (VAAL)
 ```
 
 ---
@@ -119,7 +119,7 @@ choose which one becomes `currency0`. Your code picks the right one in `TODO 2.1
 
 **Call the functions.** Expand your deployed `Task2Pool` and click, in this order:
 
-1. `alphaIsCurrency0` (blue, free). Note whether it says true or false.
+1. `alphaIsCurrency0` (blue, free). Note whether it says true or false. (FALSE, Token A is not currency 0)
 2. `poolId` (blue, free). Write it down.
 3. `startingSqrtPriceX96` (blue, free). It returns whichever of your two long numbers
    applies. Write it down.
@@ -129,11 +129,11 @@ choose which one becomes `currency0`. Your code picks the right one in `TODO 2.1
 **Record these:**
 
 ```
-alphaIsCurrency0        ______________________________________
-poolId                0x ______________________________________
-startingSqrtPriceX96    ______________________________________
-tick after openPool     ______________________________________
-Task2Pool address     0x ______________________________________
+alphaIsCurrency0      false
+poolId                0x3f99f30dc5db82cfce5ab80a62b8bfe446d8f40d01626278320f10eeb5cfbbc3
+startingSqrtPriceX96  44289889278573927574025429040
+tick after openPool   -11633
+Task2Pool address     0xDA0bab807633f07f013f94DD0E6A4F96F8742B53
 ```
 
 *Remember to get the address of the deployed contract, click the copy icon next to the address in the **Deployed Contracts** section.*
@@ -185,6 +185,16 @@ Your live tick may well be negative, depending on which of your tokens became cu
 normal and nothing is wrong. The same method works: with spacing 10 and a live tick of -17274, you
 could use -17270 in the middle, so -17470 and -17070.
 
+LiveTick = -11633
+
+_tickSpacing = 10
+
+-11633/ 10 = -1163.3 -> rounded down: -1164 -> -1164 * 10 = -11640
+
+tickLower = -11640 - (10*20) = -11840
+
+tickUpper = -11640 + (10*20) = -11440
+
 **Call `addLiquidity`** with your `tickLower`, your `tickUpper`, and the liquidity amount from your
 sheet. In the terminal, expand the transaction and look at **decoded output**. It gives you
 `amount0` and `amount1`, both negative because the tokens left your contract.
@@ -192,11 +202,11 @@ sheet. In the terminal, expand the transaction and look at **decoded output**. I
 **Record these:**
 
 ```
-tickLower        ______________________________________
-tickUpper        ______________________________________
-amount0          ______________________________________
-amount1          ______________________________________
-Task3 address 0x ______________________________________
+tickLower        -11840
+tickUpper        -11440
+amount0          -170979271514938358384
+amount1          -57808818391068791542
+Task3 address    0x9D7f74d0C41E726EC95884E0e97Fa6129e3b5E99
 ```
 
 *Remember to get the address of the deployed contract, click the copy icon next to the address in the **Deployed Contracts** section.*
@@ -241,8 +251,16 @@ Your contract will not let you swap until you have recorded something.
 
 **Call `swapExactIn`** with the direction and amount from your sheet:
 
-- `zeroForOne`: true if your sheet says currency0 into currency1, false otherwise
-- `amountIn`: the swap input amount from your sheet
+- `zeroForOne`: true if your sheet says currency0 into currency1, false otherwise (zeroForOne is true)
+- `amountIn`: the swap input amount from your sheet (1000000000000000000) (1 whole token)
+
+Prediction if  1 KARO is worth 3.2 VAAL (currency 0) and amountIn is 1 token:
+
+fee = 500/ 1,000,000 = 0.0005
+
+paying in VAAL and receiving KARO, 1 VAAL = 0.3125 KARO
+
+Therefore 1000000000000000000 * 0.3125 * (1-0.0005) = 0.31234375 KARO EXPECTED (312343750000000000)
 
 Check **decoded output** again. One amount is negative, the token you paid. The other is positive,
 the token you received. The positive one is your actual output.
@@ -253,9 +271,9 @@ of the token, the same as everything else.
 **Record these:**
 
 ```
-predicted output    ______________________________________
-actual output       ______________________________________
-Task4 address     0x ______________________________________
+predicted output    312343750000000000
+actual output       312326299158883446
+Task4 address       0xb27A31f1b0AF2946B7F582768f03239b1eC07c2c
 ```
 
 *Remember to get the address of the deployed contract, click the copy icon next to the address in the **Deployed Contracts** section.*
