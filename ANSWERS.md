@@ -37,14 +37,14 @@ at it, and the output you actually received. Provide a short explanation of why 
 
 fee = 500/ 1,000,000 = 0.0005
 
-paying currency0 for currency1 so zeroForOne is true and we're paying in VAAL and receiving KARO, (1 VAAL = 0.3125 KARO)
+Paying currency0 for currency1 so zeroForOne is true and we're paying in VAAL and receiving KARO, (1 VAAL = 0.3125 KARO)
 
 Therefore output prediction is:
 
 1 * 0.3125 * (1-0.0005) = 0.31234375 KARO EXPECTED (18-decimal integer format: 312343750000000000)
 
 The predicted output of 312343750000000000 was different to the actual output of 312326299158883446, 
-due to the addition of a fee charge and price slippage (when price moves as you complete the swap, 
+due to the addition of fee charges and price slippage (when price moves as you complete the swap, 
 because the trade is changing the price)
 
 ---
@@ -59,7 +59,7 @@ it gave, and explain what caused it.
 **Answer:**
 
 I succeeded in adding liquidity on my first attempt. I deliberately triggered the TODO 3.1 check for if the 
-inputted tickLower is a multiple of TICK_SPACING (which was 10 for me). I was able to trigger it be setting the tickLower 
+inputed tickLower is a multiple of TICK_SPACING (which was 10 for me). I was able to trigger it be setting the tickLower 
 input value for addLiquidity() to -11841, which is not a mutiple of 10. The error message I recieved was 
 "tickLower is not a multiple of the tick spacing"
 
@@ -108,8 +108,8 @@ about decimals.
 
 **Answer:**
 
-Since token B is currency0 and still uses 18 decimals, nothing would change for starting price number passed in (would still be
-44289889278573927574025429040). The poolId would not change as it is a hash created from the token A and B addresses as well as
-The fee and tickspacing values. None of these values are changed if token A uses 6 decimals for price, therefore the Poolid remains
-unchanged. The pool itself does not care as it will adjust Token A price based on the price ratio it uses and put it in 18 decimal 
-format. It also doesn't either as Token A's price was not passed in at any time.
+Since token B is currency0 and still uses 18 decimals, nothing would change for starting price number passed in as alphaIsCurrency0()
+returned false (price would still be 44289889278573927574025429040). The poolId would not change as it is a hash created from the token A 
+and B addresses as well as the fee and tickspacing values. None of these values are changed if token A uses 6 decimals for price, 
+therefore the PoolId remains unchanged. The pool itself does not care as it will adjust Token A price based on the price ratio formula it uses 
+and puts all Tokens in 18 decimal format. It also doesn't know Token A's price uses 6 decimals it isn't passed in at any time.
