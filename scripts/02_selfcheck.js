@@ -12,11 +12,11 @@
 // This script only reads. It will not change anything you have deployed.
 
 // ---------------------------------------------------------------------------
-const TASK2_ADDRESS = "";
-const TASK3_ADDRESS = "";
-const TASK4_ADDRESS = "";
-const MY_FEE = 0; //          from your parameter sheet
-const MY_TICK_SPACING = 0; // from your parameter sheet
+const TASK2_ADDRESS = "0xDA0bab807633f07f013f94DD0E6A4F96F8742B53";
+const TASK3_ADDRESS = "0x9D7f74d0C41E726EC95884E0e97Fa6129e3b5E99";
+const TASK4_ADDRESS = "0xb27A31f1b0AF2946B7F582768f03239b1eC07c2c";
+const MY_FEE = 500; //          from your parameter sheet
+const MY_TICK_SPACING = 10; // from your parameter sheet
 // ---------------------------------------------------------------------------
 
 const BASE_ABI = [
